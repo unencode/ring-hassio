@@ -61,11 +61,15 @@ console.log('Getting Snapshot...');
 //var snapshot = camera.getSnapshot() // returns a Promise<Buffer> of the latest snapshot from the camera
 //console.log('SNAPSHOT CONTAINS:' + snapshot);
 
-//var response = snapshot.Read();
-var text = await camera.getSnapshot()
 
-fs.writefile("lastSnapShot.jpg", text);
 
+try {
+  const snapshotBuffer = await camera.getSnapshot()
+  fs.writefile("lastSnapShot.jpg", snapshotBuffer);
+} catch (e) {
+  // failed to get a snapshot.  handle the error however you please
+  console.log("Attempting to save snapshot failed with " + e);
+}
 
 }
 

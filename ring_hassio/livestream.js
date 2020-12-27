@@ -83,7 +83,7 @@ function startUp() {
                 });
             });
         }
-        var ringApi, camera, text;
+        var ringApi, camera, snapshotBuffer, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -101,11 +101,20 @@ function startUp() {
                     camera = _a.sent();
                     ///////////////
                     console.log('Getting Snapshot...');
-                    return [4 /*yield*/, camera.getSnapshot()];
+                    _a.label = 2;
                 case 2:
-                    text = _a.sent();
-                    fs.writefile("lastSnapShot.jpg", text);
-                    return [2 /*return*/];
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, camera.getSnapshot()];
+                case 3:
+                    snapshotBuffer = _a.sent();
+                    fs.writefile("lastSnapShot.jpg", snapshotBuffer);
+                    return [3 /*break*/, 5];
+                case 4:
+                    e_1 = _a.sent();
+                    // failed to get a snapshot.  handle the error however you please
+                    console.log("Attempting to save snapshot failed with " + e_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });
