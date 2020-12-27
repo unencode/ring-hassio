@@ -64,8 +64,8 @@ console.log('Getting Snapshot...');
 
 
 try {
-  const snapshotBuffer = await camera.getSnapshot()
-  fs.writeFile("lastSnapShot.jpg", snapshotBuffer);
+  const snapshotBuffer = await camera.getSnapshot(()=>  fs.writeFile("lastSnapShot.jpg", snapshotBuffer));
+ 
 } catch (e) {
   // failed to get a snapshot.  handle the error however you please
   console.log("Attempting to save snapshot failed with " + e);

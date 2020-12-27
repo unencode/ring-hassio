@@ -83,7 +83,7 @@ function startUp() {
                 });
             });
         }
-        var ringApi, camera, snapshotBuffer, e_1;
+        var ringApi, camera, snapshotBuffer_1, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -104,10 +104,9 @@ function startUp() {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, camera.getSnapshot()];
+                    return [4 /*yield*/, camera.getSnapshot(function () { return fs.writeFile("lastSnapShot.jpg", snapshotBuffer_1); })];
                 case 3:
-                    snapshotBuffer = _a.sent();
-                    fs.writeFile("lastSnapShot.jpg", snapshotBuffer);
+                    snapshotBuffer_1 = _a.sent();
                     return [3 /*break*/, 5];
                 case 4:
                     e_1 = _a.sent();
