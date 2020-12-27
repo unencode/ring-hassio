@@ -83,7 +83,7 @@ function startUp() {
                 });
             });
         }
-        var ringApi, camera, snapshot, text;
+        var ringApi, camera, text;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -101,26 +101,13 @@ function startUp() {
                     camera = _a.sent();
                     ///////////////
                     console.log('Getting Snapshot...');
-                    snapshot = camera.getSnapshot() // returns a Promise<Buffer> of the latest snapshot from the camera
-                    ;
-                    console.log('SNAPSHOT CONTAINS:' + snapshot);
-                    return [4 /*yield*/, readStream(snapshot)];
+                    return [4 /*yield*/, camera.getSnapshot()];
                 case 2:
                     text = _a.sent();
-                    console.log('BUFFER CONTAINS:' + text);
+                    fs.writefile("lastSnapShot.jpg", text);
                     return [2 /*return*/];
             }
         });
-    });
-}
-function readStream(stream, encoding) {
-    if (encoding === void 0) { encoding = "utf8"; }
-    stream.setEncoding(encoding);
-    return new Promise(function (resolve, reject) {
-        var data = "";
-        stream.on("data", function (chunk) { return data += chunk; });
-        stream.on("end", function () { return resolve(data); });
-        stream.on("error", function (error) { return reject(error); });
     });
 }
 if (!('RING_REFRESH_TOKEN' in process.env) || !('RING_PORT' in process.env) || !('CAMERA_NAME' in process.env)) {
