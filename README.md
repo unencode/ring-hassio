@@ -1,6 +1,12 @@
-# ring-hassio
-[![Support the author on Patreon][patreon-shield]][patreon]
+# ring-hassio-2
+<!-- [![Support the author on Patreon][patreon-shield]][patreon] -->
 ## About
+unencode v2 Fork adds the following:
+- Support for mfa
+- Last snapshot view for camera
+- Builds on the excellent work of https://github.com/jeroenterheerdt/ring-hassio
+
+--------------
 A Home Assistant add-on to enable live streams of Ring Cameras.
 This add-on wraps around [Dgreif's excellent work](https://github.com/dgreif/ring) and exposes a livestream.
 
@@ -85,6 +91,6 @@ To do this set up a sensor and switch:
 - for the sensor you will need the URL of the Info page on the Ring Livestream add-on page.
 - a `[Long_Lived_Access_Token]` can be generated on your profile page in Home Assistant (https://hassio.local:port/profile), scroll all the way to the bottom.
 - To get the 8 chars code "xxxxxxxx_ringlivestream" get them from the same URL.
-
+<!-- 
 [patreon-shield]: https://frenck.dev/wp-content/uploads/2019/12/patreon.png
-[patreon]: https://www.patreon.com/dutchdatadude
+[patreon]: https://www.patreon.com/dutchdatadude -->

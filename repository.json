@@ -1,5 +1,5 @@
 {
-    "name": "Ring Livestream Hass.IO add-on repository",
-    "url": "https://github.com/jeroenterheerdt/ring-hassio",
-    "maintainer": "jeroenterheerdt"
+    "name": "Ring Livestream v2 Hass.IO add-on repository",
+    "url": "https://github.com/unencode/ring-hassio",
+    "maintainer": "unencode"
   }
