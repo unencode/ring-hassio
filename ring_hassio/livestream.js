@@ -40,6 +40,8 @@ exports.__esModule = true;
 require("dotenv/config");
 var ring_client_api_1 = require("ring-client-api");
 var fs = require('fs'), path = require('path'), http = require('http'), url = require('url'), zlib = require('zlib');
+var express = require('express');
+var app = express();
 var PORT = process.env.RING_PORT;
 //
 var CAMERA_NAME = process.env.CAMERA_NAME;
@@ -83,7 +85,7 @@ function startUp() {
                 });
             });
         }
-        var ringApi, camera, snapshotBuffer_1, e_1;
+        var ringApi, camera, snapshotBuffer_1, e_1, server;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -113,7 +115,54 @@ function startUp() {
                     // failed to get a snapshot.  handle the error however you please
                     console.log("Attempting to save snapshot failed with " + e_1);
                     return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                case 5:
+                    server = http.createServer(function (req, res) {
+                        // Get URL
+                        var uri = url.parse(req.url).pathname;
+                        console.log('requested uri: ' + uri);
+                        // If Accessing The Main Page
+                        if (uri == '/index.html' || uri == '/') {
+                            res.writeHead(200, { 'Content-Type': 'text/html' });
+                            res.write('<html><head><title>Ring Livestream</title></head><body>');
+                            res.write('<h1>Welcome to your Ring Livestream!</h1>');
+                            res.write("<video width=\"352\" height=\"198\" controls autoplay src=\"public/stream.m3u8\"></video>");
+                            res.write("<br/>If you cannot see the video above open <a href=\"public/stream.m3u8\">the stream</a> in a player such as VLC.");
+                            res.end();
+                            return;
+                        }
+                        var dir = path.join(__dirname, 'public');
+                        var mime = {
+                            html: 'text/html',
+                            txt: 'text/plain',
+                            css: 'text/css',
+                            gif: 'image/gif',
+                            jpg: 'image/jpeg',
+                            png: 'image/png',
+                            svg: 'image/svg+xml',
+                            js: 'application/javascript'
+                        };
+                        app.get('*', function (req, res) {
+                            var file = path.join(dir, req.path.replace(/\/$/, '/index.html'));
+                            if (file.indexOf(dir + path.sep) !== 0) {
+                                return res.status(403).end('Forbidden');
+                            }
+                            var type = mime[path.extname(file).slice(1)] || 'text/plain';
+                            var s = fs.createReadStream(file);
+                            s.on('open', function () {
+                                res.set('Content-Type', type);
+                                s.pipe(res);
+                            });
+                            s.on('error', function () {
+                                res.set('Content-Type', 'text/plain');
+                                res.status(404).end('Not found');
+                            });
+                        });
+                        //app.listen(3000, function () {
+                        // console.log('Listening on http://localhost:3000/');
+                        //});
+                        console.log('Listening on port: ' + PORT);
+                    }).listen(PORT);
+                    return [2 /*return*/];
             }
         });
     });

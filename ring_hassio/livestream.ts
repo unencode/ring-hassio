@@ -7,7 +7,9 @@ const fs = require('fs'),
   path = require('path'),
   http = require('http'),
   url = require('url'),
-  zlib = require('zlib')  
+  zlib = require('zlib')
+  var express = require('express');
+  var app = express();
 
 const PORT = process.env.RING_PORT;
 //
@@ -71,10 +73,62 @@ try {
   console.log("Attempting to save snapshot failed with " + e);
 }
 
+
+
+
+var server = http.createServer(function (req, res) {
+  // Get URL
+  var uri = url.parse(req.url).pathname;
+  console.log('requested uri: '+uri)
+  // If Accessing The Main Page
+  if (uri == '/index.html' || uri == '/') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write('<html><head><title>Ring Livestream</title></head><body>');
+    res.write('<h1>Welcome to your Ring Livestream!</h1>');
+    res.write(`<video width="352" height="198" controls autoplay src="public/stream.m3u8"></video>`);
+    res.write(`<br/>If you cannot see the video above open <a href="public/stream.m3u8">the stream</a> in a player such as VLC.`);
+    res.end();
+    return;
+  }
+
+  
+  var dir = path.join(__dirname, 'public');
+
+  var mime = {
+      html: 'text/html',
+      txt: 'text/plain',
+      css: 'text/css',
+      gif: 'image/gif',
+      jpg: 'image/jpeg',
+      png: 'image/png',
+      svg: 'image/svg+xml',
+      js: 'application/javascript'
+  };
+  
+  app.get('*', function (req, res) {
+      var file = path.join(dir, req.path.replace(/\/$/, '/index.html'));
+      if (file.indexOf(dir + path.sep) !== 0) {
+          return res.status(403).end('Forbidden');
+      }
+      var type = mime[path.extname(file).slice(1)] || 'text/plain';
+      var s = fs.createReadStream(file);
+      s.on('open', function () {
+          res.set('Content-Type', type);
+          s.pipe(res);
+      });
+      s.on('error', function () {
+          res.set('Content-Type', 'text/plain');
+          res.status(404).end('Not found');
+      });
+  });
+
+  //app.listen(3000, function () {
+   // console.log('Listening on http://localhost:3000/');
+//});
+console.log('Listening on port: ' + PORT);
+}).listen(PORT);
+
 }
-
-
-
 
 
 
@@ -85,8 +139,3 @@ if(!('RING_REFRESH_TOKEN' in process.env) || !('RING_PORT' in process.env) || !(
 else {
   startUp()
 }
-
-
-
-
-
