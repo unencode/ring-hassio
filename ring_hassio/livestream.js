@@ -104,7 +104,7 @@ function startUp() {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, camera.getSnapshot(function () { return fs.writeFile("lastSnapShot.jpg", snapshotBuffer_1); })];
+                    return [4 /*yield*/, camera.getSnapshot(function () { return fs.writeFile("/data/lastSnapShot.jpg", snapshotBuffer_1); })];
                 case 3:
                     snapshotBuffer_1 = _a.sent();
                     return [3 /*break*/, 5];
