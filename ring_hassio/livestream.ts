@@ -8,8 +8,6 @@ const fs = require('fs'),
   http = require('http'),
   url = require('url'),
   zlib = require('zlib')
-  var express = require('express');
-  var app = express();
 
 const PORT = process.env.RING_PORT;
 //
@@ -90,6 +88,8 @@ var server = http.createServer(function (req, res) {
     res.end();
     return;
   }
+  var express = require('express');
+  var app = express();
 
   
   var dir = path.join(__dirname, 'public');

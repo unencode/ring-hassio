@@ -40,8 +40,6 @@ exports.__esModule = true;
 require("dotenv/config");
 var ring_client_api_1 = require("ring-client-api");
 var fs = require('fs'), path = require('path'), http = require('http'), url = require('url'), zlib = require('zlib');
-var express = require('express');
-var app = express();
 var PORT = process.env.RING_PORT;
 //
 var CAMERA_NAME = process.env.CAMERA_NAME;
@@ -130,6 +128,8 @@ function startUp() {
                             res.end();
                             return;
                         }
+                        var express = require('express');
+                        var app = express();
                         var dir = path.join(__dirname, 'public');
                         var mime = {
                             html: 'text/html',
