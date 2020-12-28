@@ -104,7 +104,7 @@ function startUp() {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, camera.getSnapshot(function () { return fs.writeFile("/data/lastSnapShot.jpg", snapshotBuffer_1); })];
+                    return [4 /*yield*/, camera.getSnapshot(function () { return fs.writeFile("/public/lastSnapShot.jpg", snapshotBuffer_1); })];
                 case 3:
                     snapshotBuffer_1 = _a.sent();
                     return [3 /*break*/, 5];
@@ -123,8 +123,8 @@ function startUp() {
                             res.writeHead(200, { 'Content-Type': 'text/html' });
                             res.write('<html><head><title>Ring Livestream</title></head><body>');
                             res.write('<h1>Welcome to your Ring Livestream!</h1>');
-                            res.write("<video width=\"352\" height=\"198\" controls autoplay src=\"public/stream.m3u8\"></video>");
-                            res.write("<br/>If you cannot see the video above open <a href=\"public/stream.m3u8\">the stream</a> in a player such as VLC.");
+                            res.write("<video width=\"352\" height=\"198\" controls autoplay src=\"public/lastSnapShot.jpg\"></video>");
+                            res.write('<br/>View <a href="public/lastSnapShot.jpg">last snapshot </a>');
                             res.end();
                             return;
                         }
